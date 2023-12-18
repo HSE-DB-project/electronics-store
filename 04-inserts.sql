@@ -1,4 +1,5 @@
 set search_path = db_project, public;
+set datestyle = 'iso, dmy';
 
 insert into client(first_name, last_name, login, password)
     values ('Иван', 'Петров', 'ivan123', 'qwerty123');

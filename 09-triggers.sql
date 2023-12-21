@@ -8,7 +8,7 @@ $$
 begin
 	update employee 
 	set valid_until = new.valid_from
-	where employee_id = new.employee_id;
+	where employee_id = new.employee_id AND valid_until >= now();
 	return new;
 end;
 $$ language plpgsql;
@@ -27,11 +27,11 @@ create table clients_pass_log
 (
     log_id          serial primary key,
     operation_at    timestamp(0) not null,
-    client_id 		int not null,
-    first_name		text not null,
-    last_name    	text not null,
-    login		    text not null,
-   	old_password    text,
+    client_id 	    int not null,
+    first_name	    text not null,
+    last_name       text not null,
+    login	    text not null,
+    old_password    text,
     new_password    text not null
 );
 

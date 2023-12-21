@@ -25,17 +25,16 @@ with processed_products as (select e.employee_id     as e_id,
                                 e.employee_id = o.employee_id
                                     and e.valid_until = '01-01-5999'::date
                                     and o.status = 'DELIVERED'
-                                     join db_project.order_x_product oxp on o.order_id = oxp.order_id
-                                     join db_project.product p on oxp.product_id = p.product_id
+                                     join order_x_product oxp on o.order_id = oxp.order_id
+                                     join product p on oxp.product_id = p.product_id
                             group by e.employee_id, p.product_id, e.first_name, e.last_name, p.name
                             having sum(oxp.quantity) >= 3)
 select e_id                                               as id,
        e_first_name                                       as first_name,
        e_last_name                                        as last_name,
-       string_agg(concat_ws(': ', p_name, p_amount), ',') as processed_products
+       string_agg(concat_ws(': ', p_name, p_amount), ', ') as processed_products
 from processed_products
 group by e_id, e_first_name, e_last_name;
-
 
 -- в какие месяцы вырастает нагрузка на поставщиков -
 -- сколько товаров было поставлено в каждый месяц и на сколько процентов произошло изменение по сравнению с предыдущим месяцем
@@ -43,7 +42,7 @@ with products_supplied_per_month as (select date_part('month', s.date) as month,
                                             date_part('year', s.date)  as year,
                                             sum(sxp.quantity)          as products_amount
                                      from supply s
-                                              join db_project.supply_x_product sxp on s.supply_id = sxp.supply_id
+                                              join supply_x_product sxp on s.supply_id = sxp.supply_id
                                      group by date_part('month', s.date), date_part('year', s.date))
 select month,
        year,
@@ -76,13 +75,11 @@ from employee e
 group by e.employee_id;
 
 -- самые щедрые клиенты по убыванию внесенного капитала
-select
-    c.client_id as client_id,
-    c.login as login,
-    sum(o.price_total) as total_amount
-from
-    client c
-        join "order" o on c.client_id = o.client_id
-            and o.status in ('PAID', 'DELIVERED')
+select c.client_id        as client_id,
+       c.login            as login,
+       sum(o.price_total) as total_amount
+from client c
+         join "order" o on c.client_id = o.client_id
+    and o.status in ('PAID', 'DELIVERED')
 group by c.client_id
 order by sum(o.price_total) desc;

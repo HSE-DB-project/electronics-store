@@ -49,7 +49,7 @@ insert into "order"(client_id, employee_id, employee_valid_from, date, status, p
 insert into "order"(client_id, employee_id, employee_valid_from, date, status, price_total)
     values (8, 4, '08-10-2018'::date, '15-12-2021'::date, 'DELIVERED', 149900);
 insert into "order"(client_id, employee_id, employee_valid_from, date, status, price_total)
-    values (6, 1, '15-02-2020'::date, '13-01-2022'::date, 'CANCELLED', 234000);
+    values (6, 1, '15-02-2020'::date, '13-01-2022'::date, 'DELIVERED', 234000);
 insert into "order"(client_id, employee_id, employee_valid_from, date, status, price_total)
     values (1, 3, '08-04-2019'::date, '16-10-2023'::date, 'CANCELLED', 89900);
 insert into "order"(client_id, employee_id, employee_valid_from, date, status, price_total)
@@ -58,6 +58,8 @@ insert into "order"(client_id, employee_id, employee_valid_from, date, status, p
     values (3, 3, '08-04-2019'::date, '23-11-2023'::date, 'IN_PROGRESS', 78000);
 insert into "order"(client_id, employee_id, employee_valid_from, date, status, price_total)
     values (5, 1, '15-02-2020'::date, '04-12-2023'::date, 'PAID', 78000);
+insert into "order"(client_id, employee_id, employee_valid_from, date, status, price_total)
+    values (5, 1, '15-02-2020'::date, '13-01-2022'::date, 'DELIVERED', 449500);
 
 insert into product(name, description, price, quantity_available)
     values ('Игровой ноутбук Lenovo', null, 60000, 0);
@@ -86,6 +88,8 @@ insert into order_x_product(order_id, product_id, quantity)
     values (6, 5, 1);
 insert into order_x_product(order_id, product_id, quantity)
     values (7, 5, 1);
+insert into order_x_product(order_id, product_id, quantity)
+    values (8, 4, 5);
 
 insert into supplier(name, phone_no, city)
     values ('Москва Ритейл', '+74956723473', 'Москва');

@@ -44,15 +44,3 @@ begin
         having sum(oxp.quantity * p.price) != o.price_total);
 end;
 $$ language plpgsql;
-
--- only for testing purposes:
-
-select * from product;
-select apply_supply(1);
-select * from product;
-
-update "order" set price_total = 100 where order_id = 1;
-select find_price_mismatches();
-select * from price_mismatches;
-
-

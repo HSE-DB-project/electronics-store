@@ -3,6 +3,11 @@ set datestyle = 'iso, dmy';
 
 -- drop function apply_supply;
 
+
+-- Увеличивает доступное количество товаров на складе нп
+-- количество пришедшее в конкретной поставке 
+--     `new_supply_id` - идентификатор поставки, которую необходимо "применить" 
+
 create function apply_supply(in new_supply_id int) 
 returns void as $$
 declare supply_element record;
@@ -26,6 +31,12 @@ create table price_mismatches (
 
 
 -- drop function find_price_mismatches(in start_date date);
+
+-- Находит все заказы, у которых цена продажи не совпадает с суммарной
+-- стоимостью составляющих на данный момент, начиная с заданной даты 
+-- и сохраняет в таблицу `price_mismatches`, старое содержимое таблицы
+-- уничтожается
+--     `start_date = '01-01-2000'` - дата, начиная с которой фильтруются заказы. 
 
 create function find_price_mismatches(in start_date date default '01-01-2000') 
 returns void as $$

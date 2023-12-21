@@ -45,8 +45,14 @@ begin
         values (current_timestamp, new.client_id, new.first_name, new.last_name, new.login, null, new.password);
     elseif tg_op = 'UPDATE'
     then
-        insert into clients_pass_log(operation_at, client_id, first_name, last_name, login, old_password, new_password)
-        values (current_timestamp, new.client_id, new.first_name, new.last_name, new.login, old.password, new.password);
+    	if old.password <> new.password
+    	then
+	        insert into clients_pass_log(operation_at, client_id, first_name, last_name, login, old_password, new_password)
+	        values (current_timestamp, new.client_id, new.first_name, new.last_name, new.login, old.password, new.password);
+	    else
+	     	insert into clients_pass_log(operation_at, client_id, first_name, last_name, login, old_password, new_password)
+        	values (current_timestamp, new.client_id, new.first_name, new.last_name, new.login, null, new.password);
+        end if;
     end if;
     return null;
 end;
